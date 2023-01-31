@@ -6,9 +6,6 @@
 [[ $- != *i* ]] && return
 
 ### EXPORT
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTSIZE=1000
-export HISTFILESIZE=10000
 export TERM="xterm-256color"                      # getting proper colors
 export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
 export ALTERNATE_EDITOR=""                        # setting for emacsclient
@@ -51,7 +48,7 @@ if [ -d "$HOME/.cargo/bin" ] ; then
     PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-i### SETTING OTHER ENVIRONMENT VARIABLES
+### SETTING OTHER ENVIRONMENT VARIABLES
 if [ -z "$XDG_CONFIG_HOME" ] ; then
     export XDG_CONFIG_HOME="$HOME/.config"
 fi
@@ -61,6 +58,20 @@ fi
 if [ -z "$XDG_CACHE_HOME" ] ; then
     export XDG_CACHE_HOME="$HOME/.cache"
 fi
+
+if [ -z "$XDG_STATE_HOME" ] ; then
+    export XDG_STATE_HOME=$HOME/.local/state
+fi
+
+export AZURE_CONFIG_DIR="$XDG_DATA_HOME"/azure
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+export LESSHISTFILE="$XDG_STATE_HOME"/less/history
+
+# for setting history length see 
+export HISTSIZE=1000
+export HISTFILESIZE=10000
+export HISTFILE="${XDG_STATE_HOME}"/bash/history
+export ALIASES="${XDG_CONFIG_HOME}"/aliases
 
 ### SHOPT
 shopt -s autocd # change to named directory
@@ -75,8 +86,8 @@ shopt -s checkwinsize # checks term size when bash regains control
 bind "set completion-ignore-case on"
 
 ### ALIASES ###
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f "${ALIASES}" ]; then
+    . "${ALIASES}"
 fi
 
 

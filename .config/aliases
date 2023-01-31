@@ -1,0 +1,208 @@
+# git command wrapper for dotfiles bare repository
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+# Changing "ls" to "exa"
+alias ls='exa -al --color=always --group-directories-first' # my preferred listing
+alias la='exa -a --color=always --group-directories-first'  # all files and dirs
+alias ll='exa -l --color=always --group-directories-first'  # long format
+alias lt='exa -aT --color=always --group-directories-first' # tree listing
+alias l.='exa -a | egrep "^\."'
+
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# confirm before overwriting something
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -i'
+alias ln='ln -i'
+
+# Add safety nets
+# do not delete / or prompt if deleting more than 3 files at a time #
+alias rm='rm -I --preserve-root'
+
+# Parenting changing perms on / #
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
+# adding flags
+alias df='df -h'                          # human-readable sizes
+alias free='free -m'                      # show sizes in MB
+
+# ps
+alias psa="ps auxf"
+alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias psmem='ps auxf | sort -nr -k 4'
+alias pscpu='ps auxf | sort -nr -k 3'
+
+# switch between shells
+# I do not recommend switching default SHELL from bash.
+alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
+alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
+alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
+
+### ARCHIVE EXTRACTION
+# usage: ex <file>
+ex ()
+{
+  if [ -f "$1" ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       unrar x $1   ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *.deb)       ar x $1      ;;
+      *.tar.xz)    tar xf $1    ;;
+      *.tar.zst)   unzstd $1    ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+
+[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
+[ "$TERM" = "xterm-kitty" ] && alias kssh="kitty +kitten ssh"
+
+# Resume wget by default
+# alias wget="wget -c --hsts-file="$XDG_DATA_HOME/wget-hsts"
+alias wget="wget -c "
+
+##### root privileges
+alias doas="doas --"
+
+if [ $UID -ne 0 ]; then
+  alias update='sudo apt-get update && sudo apt-get upgrade'
+  alias updatey='sudo apt-get update -y && sudo apt-get upgrade'
+  alias nala='sudo nala '
+
+  # Tune sudo and su
+  # become root #
+  alias root='sudo -i'
+
+  # Pass halt/reboot via sudo
+  # shutdown command bring the Linux / Unix system down:
+  # reboot / halt / poweroff
+  alias reboot='sudo /sbin/reboot'
+  alias poweroff='sudo /sbin/poweroff'
+  alias halt='sudo /sbin/halt'
+  alias shutdown='sudo /sbin/shutdown'
+  alias du='sudo /usr/bin/du -h' # human-readable sizes
+  alias df='sudo /usr/bin/df -h' # human-readable sizes
+fi
+
+########  NAVIGATION
+up () {
+  local d=""
+  local limit="$1"
+
+  # Default to limit of 1
+  if [ -z "$limit" ] || [ "$limit" -le 0 ]; then
+    limit=1
+  fi
+
+  for ((i=1;i<=limit;i++)); do
+    d="../$d"
+  done
+
+  # perform cd. Show error if cd fails
+  if ! cd "$d"; then
+    echo "Couldn't go up $limit dirs.";
+  fi
+}
+
+ ## get rid of command not found ##
+ alias cd..='cd ..'
+
+ ## a quick way to get out of current directory ##
+ alias ..='cd ..'
+ alias ....='cd ../../'
+ alias .3='cd ../../../'
+ alias .4='cd ../../../../'
+ alias .5='cd ../../../../..'
+
+#### MIX
+# Make mount command output pretty and human readable format
+alias mount='mount |column -t'
+
+# Command short cuts to save time
+# handy short cuts #
+alias h='history'
+alias j='jobs -l'
+
+# Create a new set of commands
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T"'
+alias nowtime=now
+alias nowdate='date +"%d-%m-%Y"'
+
+# Set vim as default
+alias vi=vim
+alias svi='sudo vi'
+alias vis='vim "+set si"'
+alias edit='vim'
+
+# Get system memory, cpu usage, and gpu memory info quickly
+## pass options to free ##
+alias meminfo='free -m -l -t'
+
+## get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+
+## get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+
+## Get server cpu info ##
+alias cpuinfo='lscpu'
+
+## older system use /proc/cpuinfo ##
+##alias cpuinfo='less /proc/cpuinfo' ##
+
+## get GPU ram on desktop / laptop##
+alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
+
+### NETWORK
+# Control output of networking tool called ping
+# Stop after sending count ECHO_REQUEST packets #
+alias ping='ping -c 5'
+# Do not wait interval 1 second, go fast #
+alias fastping='ping -c 100 -s.2'
+
+# Show open ports
+# Use netstat command to quickly list all TCP/UDP port on the server:
+alias ports='netstat -tulanp'
+
+
+
+
+
+
+### SOME FUN
+alias fortune='fortune | cowsay -f $(ls /usr/share/cowsay/cows|shuf -n 1) | lolcat'
+
+# rust utils
+# alias bat="batcat"
+# alias fd=..... ln -s $(which fdfind)
+# procs
+# tokei
+# starship
+#
+# Mix cmd
+# shuf figlet cowsay toilet lolcat
+#
