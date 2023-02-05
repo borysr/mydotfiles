@@ -1,6 +1,8 @@
 # git command wrapper for dotfiles bare repository
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
+export SOMETHING_FROM_ALIASES=WHATEVER
+
 # Changing "ls" to "exa"
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
 alias la='exa -a --color=always --group-directories-first'  # all files and dirs
@@ -191,13 +193,21 @@ alias ports='netstat -tulanp'
 
 
 
+### COUNTDOWN   
 
+cdown () {
+    N=$1
+  while [[ $((--N)) >  0 ]]
+    do
+        echo "$N" |  figlet -c | lolcat &&  sleep 1
+    done
+}
 
 ### SOME FUN
 alias fortune='fortune | cowsay -f $(ls /usr/share/cowsay/cows|shuf -n 1) | lolcat'
-
+alias bat="batcat"
+alias cat="batcat --paging=never "
 # rust utils
-# alias bat="batcat"
 # alias fd=..... ln -s $(which fdfind)
 # procs
 # tokei
