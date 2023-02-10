@@ -207,6 +207,8 @@ cdown () {
 alias fortune='fortune | cowsay -f $(ls /usr/share/cowsay/cows|shuf -n 1) | lolcat'
 alias bat="batcat"
 alias cat="batcat --paging=never "
+####  alias rg="ripgrep "
+#
 # rust utils
 # alias fd=..... ln -s $(which fdfind)
 # procs
