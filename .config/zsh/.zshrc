@@ -132,10 +132,6 @@ alias notes="cd ~/repos/mynotes; codium"
 
 [[ -e ~/.config/aliases ]] && emulate sh -c 'source ~/.config/aliases'
 
-# eval `ssh-agent`
-# ssh-add .ssh/id_rsa .ssh/ansible
-# ssh-add -l
-
 neofetch
 
 # Lines configured by zsh-newuser-install
