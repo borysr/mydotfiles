@@ -7,7 +7,7 @@
 
 ### EXPORT
 export TERM="xterm-256color"                      # getting proper colors
-export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
+export HISTCONTROL=ignoreboth:erasedups  # no duplicate entries
 export ALTERNATE_EDITOR=""                        # setting for emacsclient
 export EDITOR="vim"                               # $EDITOR use vim
 # export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
@@ -72,6 +72,7 @@ export HISTSIZE=1000
 export HISTFILESIZE=10000
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
 export ALIASES="${XDG_CONFIG_HOME}"/aliases
+# export CHEAT_CONFIG_PATH="~/.config/cheat/conf.yml"
 
 ### SHOPT
 shopt -s autocd # change to named directory
