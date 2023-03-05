@@ -207,14 +207,30 @@ cdown () {
 alias fortune='fortune | cowsay -f $(ls /usr/share/cowsay/cows|shuf -n 1) | lolcat'
 alias bat="batcat"
 alias cat="batcat --paging=never "
+alias du="dust"
+
 ####  alias rg="ripgrep "
 #
-# rust utils
-# alias fd=..... ln -s $(which fdfind)
+# utils
+# dust
+# duff
+# exa
+# figlet cowsay toilet lolcat
+# cheat
+# bottom - btm
+# tldr
+# hyperfine
+# gping
+# ripgrep - rg
 # procs
+# alias fd=..... ln -s $(which fdfind)
+#
+# INSTALL later 
+# shuf 
+# glances ? install via docker later
+# curlie 
+# httpie
+# dog - dig on steroids
+#
 # tokei
 # starship
-#
-# Mix cmd
-# shuf figlet cowsay toilet lolcat
-#
